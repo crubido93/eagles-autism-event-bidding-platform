@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { Notification } from "@/lib/types";
 
@@ -62,18 +63,26 @@ export default function NotificationBell({
           ) : (
             <ul className="max-h-80 space-y-1 overflow-y-auto">
               {notifications.slice(0, 10).map((n) => (
-                <li
-                  key={n.id}
-                  className="rounded-lg p-3 transition hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  <p className="text-sm font-medium">
-                    You were outbid on{" "}
-                    <span className="text-eagles-green">{n.itemName}</span>
-                  </p>
-                  <p className="text-xs text-black/60 dark:text-white/60">
-                    New high bid: ${n.amount.toLocaleString()} ·{" "}
-                    {timeAgo(n.createdAt)}
-                  </p>
+                <li key={n.id}>
+                  <Link
+                    href={`/auction/${n.itemId}`}
+                    onClick={() => setOpen(false)}
+                    className="block rounded-lg p-3 transition hover:bg-eagles-green/10 dark:hover:bg-white/5"
+                  >
+                    <p className="text-sm font-medium">
+                      You were outbid on{" "}
+                      <span className="text-eagles-green underline-offset-2 group-hover:underline">
+                        {n.itemName}
+                      </span>
+                    </p>
+                    <p className="mt-0.5 text-xs text-black/60 dark:text-white/60">
+                      New high bid: ${n.amount.toLocaleString()} ·{" "}
+                      {timeAgo(n.createdAt)}
+                    </p>
+                    <p className="mt-1 text-xs font-medium text-eagles-green">
+                      Bid again →
+                    </p>
+                  </Link>
                 </li>
               ))}
             </ul>
