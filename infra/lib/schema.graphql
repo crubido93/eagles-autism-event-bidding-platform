@@ -1,0 +1,35 @@
+type Item @aws_cognito_user_pools {
+  itemId: ID!
+  name: String!
+  description: String!
+  imageUrl: String!
+  startingBid: Float!
+  currentBid: Float!
+  currentBidderId: ID
+  currentBidderName: String
+  endsAt: AWSDateTime!
+  bidCount: Int!
+}
+
+type BidEvent @aws_cognito_user_pools {
+  itemId: ID!
+  currentBid: Float!
+  currentBidderId: ID!
+  currentBidderName: String!
+  bidCount: Int!
+}
+
+type Query {
+  listItems: [Item!]! @aws_cognito_user_pools
+  getItem(itemId: ID!): Item @aws_cognito_user_pools
+}
+
+type Mutation {
+  placeBid(itemId: ID!, amount: Float!): BidEvent! @aws_cognito_user_pools
+}
+
+type Subscription {
+  onBidPlaced: BidEvent
+    @aws_subscribe(mutations: ["placeBid"])
+    @aws_cognito_user_pools
+}

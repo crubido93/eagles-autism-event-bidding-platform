@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # OIDC
+  contents: read
+
+jobs:
+  deploy-infra:
+    name: Deploy CDK stack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: infra/package-lock.json
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install infra deps
+        working-directory: infra
+        run: npm ci
+
+      - name: CDK deploy
+        working-directory: infra
+        run: npx cdk deploy --require-approval never --outputs-file ../cdk-outputs.json
+
+      - name: Trigger Amplify build
+        if: ${{ env.AMPLIFY_APP_ID != '' && env.AMPLIFY_BRANCH != '' }}
+        env:
+          AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
+          AMPLIFY_BRANCH: ${{ secrets.AMPLIFY_BRANCH }}
+        run: |
+          aws amplify start-job \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$AMPLIFY_BRANCH" \
+            --job-type RELEASE

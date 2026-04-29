@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]
+
+jobs:
+  build:
+    name: Lint, typecheck, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install (app)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+        env:
+          # Build needs these to be defined; values don't have to be real
+          # for the build itself — Amplify Hosting injects real values at
+          # runtime. This keeps PR builds green without leaking secrets.
+          NEXT_PUBLIC_AWS_REGION: us-east-1
+          NEXT_PUBLIC_COGNITO_USER_POOL_ID: us-east-1_PLACEHOLDER
+          NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID: placeholder
+          NEXT_PUBLIC_APPSYNC_URL: https://placeholder.appsync-api.us-east-1.amazonaws.com/graphql
+          NEXT_PUBLIC_APPSYNC_REGION: us-east-1
+
+      - name: Install (infra)
+        working-directory: infra
+        run: npm ci
+
+      - name: CDK synth
+        working-directory: infra
+        run: npx cdk synth
