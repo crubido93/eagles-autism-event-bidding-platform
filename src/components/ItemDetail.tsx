@@ -89,7 +89,8 @@ export default function ItemDetail({
   }, [itemId]);
 
   // Flash the current-bid stat whenever it changes (subscription, mutation response, or initial load).
-  // Also detect outbid-while-on-page so we can show an inline warning in the bid form.
+  // Also detect outbid-while-on-page so we can show an inline warning in the bid form,
+  // and clear that warning the moment the user reclaims the lead.
   useEffect(() => {
     if (!item) return;
     if (lastSeenBid.current !== null && lastSeenBid.current !== item.currentBid) {
@@ -103,13 +104,12 @@ export default function ItemDetail({
       !isLeaderNow &&
       item.currentBidderId !== null
     ) {
-      setOutbid(true);
-      const t = setTimeout(() => setOutbid(false), 6000);
-      wasLeader.current = isLeaderNow;
-      return () => clearTimeout(t);
+      setOutbid(true); // persistent — only cleared when user becomes leader again
+    } else if (isLeaderNow && outbid) {
+      setOutbid(false);
     }
     wasLeader.current = isLeaderNow;
-  }, [item, user.userId]);
+  }, [item, user.userId, outbid]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -198,24 +198,30 @@ export default function ItemDetail({
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[1.1fr_1fr]">
         <div className="overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
-          <div className="relative aspect-[4/3] w-full">
-            <Image
-              src={item.imageUrl}
-              alt={item.name}
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
+          <Image
+            src={item.imageUrl}
+            alt={item.name}
+            width={1200}
+            height={1200}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="h-auto w-full"
+          />
         </div>
 
         <div>
-          <span className="inline-flex items-center rounded-full border border-eagles-green/30 bg-eagles-green/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-eagles-green">
-            Estimated value:{" "}
-            {item.estimatedValue
-              ? `$${item.estimatedValue.toLocaleString()}`
-              : "Priceless"}
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center rounded-full border border-eagles-green/30 bg-eagles-green/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-eagles-green">
+              Estimated value:{" "}
+              {item.estimatedValue
+                ? `$${item.estimatedValue.toLocaleString()}`
+                : "Priceless"}
+            </span>
+            {isLeader && !ended ? (
+              <span className="inline-flex items-center rounded-full bg-eagles-green px-3 py-1 text-xs font-medium uppercase tracking-wider text-white shadow-sm">
+                🏆 You're the high bidder
+              </span>
+            ) : null}
+          </div>
           <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">
             {item.name}
           </h1>
@@ -336,10 +342,6 @@ export default function ItemDetail({
               </div>
               {error ? (
                 <p className="mt-3 text-sm text-red-600">{error}</p>
-              ) : isLeader && !outbid ? (
-                <p className="mt-3 text-sm text-eagles-green">
-                  You're currently the high bidder.
-                </p>
               ) : null}
             </form>
           )}
