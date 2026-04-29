@@ -197,7 +197,7 @@ export default function ItemDetail({
       </header>
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[1.1fr_1fr]">
-        <div className="overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
+        <div className="self-start overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
           <Image
             src={item.imageUrl}
             alt={item.name}
