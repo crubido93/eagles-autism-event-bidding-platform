@@ -127,7 +127,15 @@ export class EaglesAuctionStack extends cdk.Stack {
 #set($amount = $ctx.args.amount)
 #set($itemId = $ctx.args.itemId)
 #set($userId = $ctx.identity.sub)
-#set($userName = $util.defaultIfNullOrEmpty($ctx.identity.claims.get("name"), $ctx.identity.username))
+#set($claimName = $ctx.identity.claims.get("name"))
+#set($claimEmail = $ctx.identity.claims.get("email"))
+#if(!$util.isNullOrEmpty($claimName))
+  #set($userName = $claimName)
+#elseif(!$util.isNullOrEmpty($claimEmail))
+  #set($userName = $claimEmail.split("@")[0])
+#else
+  #set($userName = "Anonymous")
+#end
 #set($now = $util.time.nowISO8601())
 {
   "version": "2018-05-29",
