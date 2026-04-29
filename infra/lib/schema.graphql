@@ -26,7 +26,8 @@ type Query {
 }
 
 type Mutation {
-  placeBid(itemId: ID!, amount: Float!): BidEvent! @aws_cognito_user_pools
+  placeBid(itemId: ID!, amount: Float!, bidderName: String): BidEvent!
+    @aws_cognito_user_pools
 }
 
 type Subscription {

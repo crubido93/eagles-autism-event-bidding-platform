@@ -127,7 +127,11 @@ export default function ItemDetail({
       const client = generateClient();
       const res = await client.graphql({
         query: mutations.placeBid,
-        variables: { itemId, amount: bidAmount },
+        variables: {
+          itemId,
+          amount: bidAmount,
+          bidderName: user.name,
+        },
       });
       const evt = (
         res as {

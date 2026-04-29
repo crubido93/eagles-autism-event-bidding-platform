@@ -37,8 +37,8 @@ export const queries = {
 
 export const mutations = {
   placeBid: /* GraphQL */ `
-    mutation PlaceBid($itemId: ID!, $amount: Float!) {
-      placeBid(itemId: $itemId, amount: $amount) {
+    mutation PlaceBid($itemId: ID!, $amount: Float!, $bidderName: String) {
+      placeBid(itemId: $itemId, amount: $amount, bidderName: $bidderName) {
         itemId
         currentBid
         currentBidderId
