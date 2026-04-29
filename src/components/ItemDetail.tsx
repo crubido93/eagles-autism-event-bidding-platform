@@ -26,7 +26,9 @@ export default function ItemDetail({
   const [bidAmount, setBidAmount] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
   const [flashKey, setFlashKey] = useState(0);
+  const [outbid, setOutbid] = useState(false);
   const lastSeenBid = useRef<number | null>(null);
+  const wasLeader = useRef<boolean | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -74,6 +76,12 @@ export default function ItemDetail({
                 }
               : prev,
           );
+          // Auto-bump the typed bid amount if it's now below the new minimum
+          // so the user can't accidentally submit an invalid bid after being outbid.
+          setBidAmount((current) => {
+            const newMinimum = evt.currentBid + MIN_INCREMENT;
+            return current < newMinimum ? newMinimum : current;
+          });
         },
         error: () => {},
       });
@@ -81,13 +89,27 @@ export default function ItemDetail({
   }, [itemId]);
 
   // Flash the current-bid stat whenever it changes (subscription, mutation response, or initial load).
+  // Also detect outbid-while-on-page so we can show an inline warning in the bid form.
   useEffect(() => {
     if (!item) return;
     if (lastSeenBid.current !== null && lastSeenBid.current !== item.currentBid) {
       setFlashKey((k) => k + 1);
     }
     lastSeenBid.current = item.currentBid;
-  }, [item]);
+
+    const isLeaderNow = item.currentBidderId === user.userId;
+    if (
+      wasLeader.current === true &&
+      !isLeaderNow &&
+      item.currentBidderId !== null
+    ) {
+      setOutbid(true);
+      const t = setTimeout(() => setOutbid(false), 6000);
+      wasLeader.current = isLeaderNow;
+      return () => clearTimeout(t);
+    }
+    wasLeader.current = isLeaderNow;
+  }, [item, user.userId]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -254,10 +276,42 @@ export default function ItemDetail({
               <p className="text-xs uppercase tracking-widest text-black/50 dark:text-white/50">
                 Place a bid
               </p>
-              <p className="mt-1 text-sm text-black/60 dark:text-white/60">
+
+              {outbid ? (
+                <div className="mt-2 rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300">
+                  ⚠️ You were just outbid by{" "}
+                  <span className="font-semibold">
+                    {item.currentBidderName ?? "another bidder"}
+                  </span>
+                  . New minimum is ${(item.currentBid + MIN_INCREMENT).toLocaleString()}.
+                </div>
+              ) : null}
+
+              <p
+                key={`min-${flashKey}`}
+                className={`mt-1 text-sm text-black/60 dark:text-white/60 ${
+                  flashKey > 0 ? "bid-flash" : ""
+                }`}
+              >
                 Minimum next bid: $
                 {(item.currentBid + MIN_INCREMENT).toLocaleString()}
               </p>
+
+              {item.currentBidderName ? (
+                <p className="mt-1 text-xs text-black/50 dark:text-white/50">
+                  Currently leading:{" "}
+                  <span
+                    className={
+                      isLeader
+                        ? "font-semibold text-eagles-green"
+                        : "font-medium"
+                    }
+                  >
+                    {isLeader ? "You" : item.currentBidderName}
+                  </span>
+                </p>
+              ) : null}
+
               <div className="mt-4 flex gap-3">
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40">
@@ -282,7 +336,7 @@ export default function ItemDetail({
               </div>
               {error ? (
                 <p className="mt-3 text-sm text-red-600">{error}</p>
-              ) : isLeader ? (
+              ) : isLeader && !outbid ? (
                 <p className="mt-3 text-sm text-eagles-green">
                   You're currently the high bidder.
                 </p>
