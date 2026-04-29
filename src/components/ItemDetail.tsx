@@ -153,7 +153,13 @@ export default function ItemDetail({
         </div>
 
         <div>
-          <h1 className="font-display text-4xl tracking-wide sm:text-5xl">
+          <span className="inline-flex items-center rounded-full border border-eagles-green/30 bg-eagles-green/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-eagles-green">
+            Estimated value:{" "}
+            {item.estimatedValue
+              ? `$${item.estimatedValue.toLocaleString()}`
+              : "Priceless"}
+          </span>
+          <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">
             {item.name}
           </h1>
           <p className="mt-4 text-black/70 dark:text-white/70">

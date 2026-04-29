@@ -40,7 +40,7 @@ const items = [
     itemId: "devonta-smith-autographed-jersey",
     name: "Authentic DeVonta Smith Autographed Jersey",
     description:
-      "DeVonta Smith autographed #6 Kelly Green Jersey with Certificate of Authenticity. Estimated value $400.",
+      "DeVonta Smith autographed #6 Kelly Green Jersey with Certificate of Authenticity.",
     imageUrl: "/items/01-devonta-smith-jersey.jpeg",
     startingBid: 100,
     estimatedValue: 400,
@@ -49,7 +49,7 @@ const items = [
     itemId: "jalen-hurts-sb-lix-wood-sign",
     name: "Authentic Jalen Hurts Autographed Memorabilia",
     description:
-      "Jalen Hurts autographed Super Bowl LIX Wood Sign with Certificate of Authenticity. Limited time memorabilia. Estimated value $400.",
+      "Jalen Hurts autographed Super Bowl LIX Wood Sign with Certificate of Authenticity. Limited time memorabilia.",
     imageUrl: "/items/02-jalen-hurts-sb-sign.png",
     startingBid: 100,
     estimatedValue: 400,
@@ -58,7 +58,7 @@ const items = [
     itemId: "jalen-hurts-autographed-jersey",
     name: "Authentic Jalen Hurts Autographed Jersey",
     description:
-      "Jalen Hurts autographed Midnight Green Super Bowl LIX jersey with Certificate of Authenticity. Estimated value $700.",
+      "Jalen Hurts autographed Midnight Green Super Bowl LIX jersey with Certificate of Authenticity.",
     imageUrl: "/items/03-jalen-hurts-jersey.png",
     startingBid: 200,
     estimatedValue: 700,
@@ -67,7 +67,7 @@ const items = [
     itemId: "super-bowl-lix-action-photos",
     name: "Super Bowl LIX Action Photos (Autographed Set of 4)",
     description:
-      "Autographed framed Super Bowl LIX action photos (set of 4) featuring Cooper DeJean, DeVonta Smith, AJ Brown, and Zach Baun, with Certificate of Authenticity. Estimated value $550.",
+      "Autographed framed Super Bowl LIX action photos (set of 4) featuring Cooper DeJean, DeVonta Smith, AJ Brown, and Zach Baun, with Certificate of Authenticity.",
     imageUrl: "/items/04-sb-action-photos.png",
     startingBid: 100,
     estimatedValue: 550,
@@ -76,7 +76,7 @@ const items = [
     itemId: "private-training-camp-experience",
     name: "Private Training Camp Experience for 4",
     description:
-      "You and four guests will attend a private practice at Jefferson Health Training Complex (formerly NovaCare). Watch practice up close. Date to be mutually agreed upon. Estimated value: priceless.",
+      "You and four guests will attend a private practice at Jefferson Health Training Complex (formerly NovaCare). Watch practice up close. Date to be mutually agreed upon.",
     imageUrl: "/items/05-training-camp.png",
     startingBid: 200,
     estimatedValue: null,
@@ -85,7 +85,7 @@ const items = [
     itemId: "eagle-tunnel-experience-preseason",
     name: "Eagles Tunnel Experience + 4 Preseason Tickets",
     description:
-      "You and three guests will line the Eagles home tunnel and watch the players take the field before the game. Package includes four lower-level tickets to the preseason game. Estimated value: priceless.",
+      "You and three guests will line the Eagles home tunnel and watch the players take the field before the game. Package includes four lower-level tickets to the preseason game.",
     imageUrl: "/items/06-tunnel-experience.png",
     startingBid: 400,
     estimatedValue: null,
@@ -94,7 +94,7 @@ const items = [
     itemId: "eagle-pregame-flag-experience",
     name: "Eagles Pregame Flag Experience + 4 Preseason Tickets",
     description:
-      "You and three guests will hold the giant American flag on the field during the national anthem. Package includes four lower-level preseason tickets. Estimated value: priceless.",
+      "You and three guests will hold the giant American flag on the field during the national anthem. Package includes four lower-level preseason tickets.",
     imageUrl: "/items/07-flag-experience.png",
     startingBid: 400,
     estimatedValue: null,
@@ -103,7 +103,7 @@ const items = [
     itemId: "morgan-wallen-aug-1-2026",
     name: "Morgan Wallen Concert — 4 Tickets, Aug 1 2026",
     description:
-      "See country music star Morgan Wallen at Lincoln Financial Field up close from the 8th row on the field. Winner receives 4 tickets in F4 row 8 plus 4 club access passes for the club lounge before, during, or after the show. Estimated value $3,000.",
+      "See country music star Morgan Wallen at Lincoln Financial Field up close from the 8th row on the field. Winner receives 4 tickets in F4 row 8 plus 4 club access passes for the club lounge before, during, or after the show.",
     imageUrl: "/items/08-morgan-wallen.png",
     startingBid: 800,
     estimatedValue: 3000,
@@ -112,7 +112,7 @@ const items = [
     itemId: "bruno-mars-sept-2-2026",
     name: "Bruno Mars Concert — 4 Tickets, Sept 2 2026",
     description:
-      "See pop music star Bruno Mars at Lincoln Financial Field up close from the 10th row on the field. Winner receives 4 tickets in F4 row 10 plus 4 club access passes for the club lounge before, during, or after the show. Estimated value $1,600.",
+      "See pop music star Bruno Mars at Lincoln Financial Field up close from the 10th row on the field. Winner receives 4 tickets in F4 row 10 plus 4 club access passes for the club lounge before, during, or after the show.",
     imageUrl: "/items/09-bruno-mars.png",
     startingBid: 400,
     estimatedValue: 1600,
@@ -121,7 +121,7 @@ const items = [
     itemId: "shane-gillis-jul-17-2026",
     name: "Shane Gillis Comedy Show — 4 Tickets, Jul 17 2026",
     description:
-      "See comedy superstar Shane Gillis set the record for the largest American comedy show as he plays a sold-out Lincoln Financial Field with many special guests and surprises. Winner receives 4 tickets in the 5th row to watch Shane and his friends up close. Estimated value $800.",
+      "See comedy superstar Shane Gillis set the record for the largest American comedy show as he plays a sold-out Lincoln Financial Field with many special guests and surprises. Winner receives 4 tickets in the 5th row to watch Shane and his friends up close.",
     imageUrl: "/items/10-shane-gillis.png",
     startingBid: 200,
     estimatedValue: 800,

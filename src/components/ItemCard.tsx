@@ -43,7 +43,15 @@ export default function ItemCard({ item, currentUser }: Props) {
         ) : null}
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <h3 className="font-display text-xl tracking-wide">{item.name}</h3>
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="font-display text-xl tracking-wide">{item.name}</h3>
+          <span className="shrink-0 rounded-full border border-eagles-green/30 bg-eagles-green/10 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-eagles-green">
+            Est.{" "}
+            {item.estimatedValue
+              ? `$${item.estimatedValue.toLocaleString()}`
+              : "Priceless"}
+          </span>
+        </div>
         <p className="line-clamp-2 text-sm text-black/60 dark:text-white/60">
           {item.description}
         </p>
