@@ -140,14 +140,14 @@ export default function ItemDetail({
       </header>
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[1.1fr_1fr]">
-        <div className="overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
           <div className="relative aspect-[4/3] w-full">
             <Image
               src={item.imageUrl}
               alt={item.name}
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         </div>

@@ -20,13 +20,13 @@ export default function ItemCard({ item, currentUser }: Props) {
       href={`/auction/${item.itemId}`}
       className="group flex flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/[0.03]"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/5">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/5 dark:bg-white/[0.03]">
         <Image
           src={item.imageUrl}
           alt={item.name}
           fill
           sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-cover transition group-hover:scale-105"
+          className="object-contain p-3 transition group-hover:scale-105"
         />
         {won ? (
           <span className="absolute left-3 top-3 rounded-full bg-eagles-green px-3 py-1 text-xs font-medium text-white shadow">
