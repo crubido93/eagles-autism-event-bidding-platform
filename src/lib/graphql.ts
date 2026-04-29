@@ -12,6 +12,7 @@ export const queries = {
         currentBidderName
         endsAt
         bidCount
+        estimatedValue
       }
     }
   `,
@@ -28,6 +29,7 @@ export const queries = {
         currentBidderName
         endsAt
         bidCount
+        estimatedValue
       }
     }
   `,

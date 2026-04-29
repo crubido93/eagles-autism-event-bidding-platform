@@ -1,5 +1,6 @@
 /**
- * Seed the AuctionItems DynamoDB table with placeholder items.
+ * Seed the AuctionItems DynamoDB table with the real items from the McCloskey's
+ * EAF event PowerPoint. Wipes any existing rows first so re-running is idempotent.
  *
  * Usage:
  *   AUCTION_ITEMS_TABLE=eagles-auction-items \
@@ -7,7 +8,12 @@
  *   npm run seed
  */
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  ScanCommand,
+  DeleteCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { fromIni } from "@aws-sdk/credential-providers";
 
 const tableName = process.env.AUCTION_ITEMS_TABLE;
@@ -31,115 +37,132 @@ const ENDS_AT = "2026-05-03T04:00:00.000Z";
 
 const items = [
   {
-    name: "Eagles Game Sideline Passes (2)",
+    itemId: "devonta-smith-autographed-jersey",
+    name: "Authentic DeVonta Smith Autographed Jersey",
     description:
-      "Two sideline passes for a 2026 home game at the Linc. Watch warmups from the field.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200",
-    startingBid: 750,
+      "DeVonta Smith autographed #6 Kelly Green Jersey with Certificate of Authenticity. Estimated value $400.",
+    imageUrl: "/items/01-devonta-smith-jersey.jpeg",
+    startingBid: 100,
+    estimatedValue: 400,
   },
   {
-    name: "Signed Jalen Hurts Jersey",
+    itemId: "jalen-hurts-sb-lix-wood-sign",
+    name: "Authentic Jalen Hurts Autographed Memorabilia",
     description:
-      "Authentic Eagles home jersey, hand-signed by QB1. Comes with COA.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1580836953495-fdf3a2935ce5?w=1200",
-    startingBid: 500,
+      "Jalen Hurts autographed Super Bowl LIX Wood Sign with Certificate of Authenticity. Limited time memorabilia. Estimated value $400.",
+    imageUrl: "/items/02-jalen-hurts-sb-sign.png",
+    startingBid: 100,
+    estimatedValue: 400,
   },
   {
-    name: "Phillies vs. Mets — 4 Field Box Seats",
+    itemId: "jalen-hurts-autographed-jersey",
+    name: "Authentic Jalen Hurts Autographed Jersey",
     description:
-      "Four field-level box seats to a 2026 Phillies vs. Mets game at Citizens Bank Park.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1606925207923-c70148434b8a?w=1200",
-    startingBid: 400,
-  },
-  {
-    name: "Private Dinner for 6 at McCloskey's",
-    description:
-      "Reserve the back room at McCloskey's for an evening of dinner and drinks for six.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200",
-    startingBid: 600,
-  },
-  {
-    name: "Wine Country Weekend (2 nights)",
-    description:
-      "Two nights for two in Sonoma, including a private vineyard tour and tasting.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1200",
-    startingBid: 1200,
-  },
-  {
-    name: "Ardmore Music Hall — VIP Concert Package",
-    description:
-      "Two VIP tickets to a future show at the Ardmore Music Hall, plus a meet & greet.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1200",
-    startingBid: 250,
-  },
-  {
-    name: "76ers Lower Bowl (4 tickets)",
-    description:
-      "Four lower bowl seats to a 2026-27 regular season Sixers game at the Wells Fargo Center.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1518085250887-2f903c200fee?w=1200",
-    startingBid: 350,
-  },
-  {
-    name: "Custom Suit at Boyds Philadelphia",
-    description:
-      "A bespoke fitting and made-to-measure suit at Boyds, the iconic Philly menswear store.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=1200",
-    startingBid: 800,
-  },
-  {
-    name: "Helicopter Tour of Philadelphia",
-    description:
-      "Private helicopter tour for two over the Philadelphia skyline at sunset.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=1200",
-    startingBid: 500,
-  },
-  {
-    name: "Signed Eagles Mini Helmet",
-    description:
-      "Mini helmet signed by a current Eagles starter. Includes display case + COA.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200",
+      "Jalen Hurts autographed Midnight Green Super Bowl LIX jersey with Certificate of Authenticity. Estimated value $700.",
+    imageUrl: "/items/03-jalen-hurts-jersey.png",
     startingBid: 200,
+    estimatedValue: 700,
   },
   {
-    name: "Golf Foursome at Aronimink",
+    itemId: "super-bowl-lix-action-photos",
+    name: "Super Bowl LIX Action Photos (Autographed Set of 4)",
     description:
-      "A round of golf for four at one of the Philadelphia area's most iconic clubs.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=1200",
-    startingBid: 1500,
+      "Autographed framed Super Bowl LIX action photos (set of 4) featuring Cooper DeJean, DeVonta Smith, AJ Brown, and Zach Baun, with Certificate of Authenticity. Estimated value $550.",
+    imageUrl: "/items/04-sb-action-photos.png",
+    startingBid: 100,
+    estimatedValue: 550,
   },
   {
-    name: "Eagles Autism Foundation 5K — Team Sponsorship",
+    itemId: "private-training-camp-experience",
+    name: "Private Training Camp Experience for 4",
     description:
-      "Sponsor a team at the next EAF 5K, including custom team shirts and a tent.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1200",
-    startingBid: 300,
+      "You and four guests will attend a private practice at Jefferson Health Training Complex (formerly NovaCare). Watch practice up close. Date to be mutually agreed upon. Estimated value: priceless.",
+    imageUrl: "/items/05-training-camp.png",
+    startingBid: 200,
+    estimatedValue: null,
+  },
+  {
+    itemId: "eagle-tunnel-experience-preseason",
+    name: "Eagles Tunnel Experience + 4 Preseason Tickets",
+    description:
+      "You and three guests will line the Eagles home tunnel and watch the players take the field before the game. Package includes four lower-level tickets to the preseason game. Estimated value: priceless.",
+    imageUrl: "/items/06-tunnel-experience.png",
+    startingBid: 400,
+    estimatedValue: null,
+  },
+  {
+    itemId: "eagle-pregame-flag-experience",
+    name: "Eagles Pregame Flag Experience + 4 Preseason Tickets",
+    description:
+      "You and three guests will hold the giant American flag on the field during the national anthem. Package includes four lower-level preseason tickets. Estimated value: priceless.",
+    imageUrl: "/items/07-flag-experience.png",
+    startingBid: 400,
+    estimatedValue: null,
+  },
+  {
+    itemId: "morgan-wallen-aug-1-2026",
+    name: "Morgan Wallen Concert — 4 Tickets, Aug 1 2026",
+    description:
+      "See country music star Morgan Wallen at Lincoln Financial Field up close from the 8th row on the field. Winner receives 4 tickets in F4 row 8 plus 4 club access passes for the club lounge before, during, or after the show. Estimated value $3,000.",
+    imageUrl: "/items/08-morgan-wallen.png",
+    startingBid: 800,
+    estimatedValue: 3000,
+  },
+  {
+    itemId: "bruno-mars-sept-2-2026",
+    name: "Bruno Mars Concert — 4 Tickets, Sept 2 2026",
+    description:
+      "See pop music star Bruno Mars at Lincoln Financial Field up close from the 10th row on the field. Winner receives 4 tickets in F4 row 10 plus 4 club access passes for the club lounge before, during, or after the show. Estimated value $1,600.",
+    imageUrl: "/items/09-bruno-mars.png",
+    startingBid: 400,
+    estimatedValue: 1600,
+  },
+  {
+    itemId: "shane-gillis-jul-17-2026",
+    name: "Shane Gillis Comedy Show — 4 Tickets, Jul 17 2026",
+    description:
+      "See comedy superstar Shane Gillis set the record for the largest American comedy show as he plays a sold-out Lincoln Financial Field with many special guests and surprises. Winner receives 4 tickets in the 5th row to watch Shane and his friends up close. Estimated value $800.",
+    imageUrl: "/items/10-shane-gillis.png",
+    startingBid: 200,
+    estimatedValue: 800,
   },
 ];
 
+async function clearTable() {
+  let cleared = 0;
+  let lastKey: Record<string, unknown> | undefined;
+  do {
+    const scan = await client.send(
+      new ScanCommand({
+        TableName: tableName,
+        ExclusiveStartKey: lastKey,
+        ProjectionExpression: "itemId",
+      }),
+    );
+    for (const row of scan.Items ?? []) {
+      await client.send(
+        new DeleteCommand({
+          TableName: tableName,
+          Key: { itemId: row.itemId },
+        }),
+      );
+      cleared++;
+    }
+    lastKey = scan.LastEvaluatedKey;
+  } while (lastKey);
+  if (cleared > 0) console.log(`  Cleared ${cleared} existing item(s)`);
+}
+
 async function main() {
+  console.log(`Seeding ${tableName} (region ${region}, profile ${profile})…`);
+  await clearTable();
   let inserted = 0;
   for (const item of items) {
-    const itemId = item.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
     await client.send(
       new PutCommand({
         TableName: tableName,
         Item: {
-          itemId,
+          itemId: item.itemId,
           name: item.name,
           description: item.description,
           imageUrl: item.imageUrl,
@@ -149,11 +172,12 @@ async function main() {
           currentBidderName: null,
           endsAt: ENDS_AT,
           bidCount: 0,
+          estimatedValue: item.estimatedValue,
         },
       }),
     );
     inserted++;
-    console.log(`  ✓ ${itemId}`);
+    console.log(`  ✓ ${item.itemId}`);
   }
   console.log(`\nSeeded ${inserted} items into ${tableName}`);
 }

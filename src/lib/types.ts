@@ -9,6 +9,7 @@ export type AuctionItem = {
   currentBidderName: string | null;
   endsAt: string; // ISO timestamp
   bidCount: number;
+  estimatedValue: number | null;
 };
 
 export type Bid = {

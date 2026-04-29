@@ -9,6 +9,7 @@ type Item @aws_cognito_user_pools {
   currentBidderName: String
   endsAt: AWSDateTime!
   bidCount: Int!
+  estimatedValue: Float
 }
 
 type BidEvent @aws_cognito_user_pools {
