@@ -198,14 +198,16 @@ export default function ItemDetail({
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[1.1fr_1fr]">
         <div className="self-start overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
-          <Image
-            src={item.imageUrl}
-            alt={item.name}
-            width={1200}
-            height={1200}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="h-auto w-full"
-          />
+          <div className="relative aspect-[4/3] w-full">
+            <Image
+              src={item.imageUrl}
+              alt={item.name}
+              fill
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
 
         <div>
