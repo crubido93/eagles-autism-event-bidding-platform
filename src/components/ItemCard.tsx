@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import Countdown from "./Countdown";
 import type { AuctionItem } from "@/lib/types";
 
@@ -14,6 +15,16 @@ export default function ItemCard({ item, currentUser }: Props) {
   const ended = new Date(item.endsAt).getTime() <= Date.now();
   const isLeader = item.currentBidderId === currentUser.userId;
   const won = ended && isLeader;
+
+  // Flash the price + count when a new bid arrives
+  const [flashKey, setFlashKey] = useState(0);
+  const lastSeenBid = useRef(item.currentBid);
+  useEffect(() => {
+    if (item.currentBid !== lastSeenBid.current) {
+      lastSeenBid.current = item.currentBid;
+      setFlashKey((k) => k + 1);
+    }
+  }, [item.currentBid]);
 
   return (
     <Link
@@ -56,7 +67,7 @@ export default function ItemCard({ item, currentUser }: Props) {
           {item.description}
         </p>
         <div className="mt-auto grid grid-cols-2 gap-3 border-t border-black/10 pt-3 text-sm dark:border-white/10">
-          <div>
+          <div key={flashKey} className={flashKey > 0 ? "bid-flash" : ""}>
             <p className="text-xs uppercase tracking-widest text-black/50 dark:text-white/50">
               Current bid
             </p>

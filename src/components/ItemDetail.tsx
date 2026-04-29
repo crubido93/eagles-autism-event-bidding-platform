@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { generateClient } from "aws-amplify/api";
@@ -25,6 +25,8 @@ export default function ItemDetail({
   const [error, setError] = useState<string | null>(null);
   const [bidAmount, setBidAmount] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
+  const [flashKey, setFlashKey] = useState(0);
+  const lastSeenBid = useRef<number | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -78,6 +80,15 @@ export default function ItemDetail({
     return () => sub.unsubscribe();
   }, [itemId]);
 
+  // Flash the current-bid stat whenever it changes (subscription, mutation response, or initial load).
+  useEffect(() => {
+    if (!item) return;
+    if (lastSeenBid.current !== null && lastSeenBid.current !== item.currentBid) {
+      setFlashKey((k) => k + 1);
+    }
+    lastSeenBid.current = item.currentBid;
+  }, [item]);
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!item) return;
@@ -92,11 +103,35 @@ export default function ItemDetail({
     try {
       configureAmplify();
       const client = generateClient();
-      await client.graphql({
+      const res = await client.graphql({
         query: mutations.placeBid,
         variables: { itemId, amount: bidAmount },
       });
-      setBidAmount(bidAmount + MIN_INCREMENT);
+      const evt = (
+        res as {
+          data: {
+            placeBid: {
+              currentBid: number;
+              currentBidderId: string;
+              currentBidderName: string;
+              bidCount: number;
+            };
+          };
+        }
+      ).data.placeBid;
+      // Optimistic local update — don't wait for the subscription roundtrip
+      setItem((prev) =>
+        prev
+          ? {
+              ...prev,
+              currentBid: evt.currentBid,
+              currentBidderId: evt.currentBidderId,
+              currentBidderName: evt.currentBidderName,
+              bidCount: evt.bidCount,
+            }
+          : prev,
+      );
+      setBidAmount(evt.currentBid + MIN_INCREMENT);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not place bid");
     } finally {
@@ -171,19 +206,18 @@ export default function ItemDetail({
               label="Starting bid"
               value={`$${item.startingBid.toLocaleString()}`}
             />
-            <Stat
-              label="Current bid"
-              value={`$${item.currentBid.toLocaleString()}`}
-              accent
-            />
+            <div key={flashKey} className={flashKey > 0 ? "bid-flash" : ""}>
+              <Stat
+                label="Current bid"
+                value={`$${item.currentBid.toLocaleString()}`}
+                accent
+              />
+            </div>
             <Stat
               label={ended ? "Ended" : "Ends in"}
               value={<Countdown endsAt={item.endsAt} />}
             />
-            <Stat
-              label="Bids"
-              value={`${item.bidCount}`}
-            />
+            <Stat label="Bids" value={`${item.bidCount}`} />
           </div>
 
           {won ? (
