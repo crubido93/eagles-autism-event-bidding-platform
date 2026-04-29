@@ -41,7 +41,7 @@ const items = [
     name: "Authentic DeVonta Smith Autographed Jersey",
     description:
       "DeVonta Smith autographed #6 Kelly Green Jersey with Certificate of Authenticity.",
-    imageUrl: "/items/01-devonta-smith-jersey.jpeg",
+    imageUrl: "/items/03-devonta-smith-jersey.png",
     startingBid: 100,
     estimatedValue: 400,
   },
@@ -50,7 +50,7 @@ const items = [
     name: "Authentic Jalen Hurts Autographed Memorabilia",
     description:
       "Jalen Hurts autographed Super Bowl LIX Wood Sign with Certificate of Authenticity. Limited time memorabilia.",
-    imageUrl: "/items/02-jalen-hurts-sb-sign.png",
+    imageUrl: "/items/01-jalen-hurts-sb-sign.jpeg",
     startingBid: 100,
     estimatedValue: 400,
   },
@@ -59,7 +59,7 @@ const items = [
     name: "Authentic Jalen Hurts Autographed Jersey",
     description:
       "Jalen Hurts autographed Midnight Green Super Bowl LIX jersey with Certificate of Authenticity.",
-    imageUrl: "/items/03-jalen-hurts-jersey.png",
+    imageUrl: "/items/02-jalen-hurts-jersey.png",
     startingBid: 200,
     estimatedValue: 700,
   },
@@ -95,7 +95,7 @@ const items = [
     name: "Eagles Pregame Flag Experience + 4 Preseason Tickets",
     description:
       "You and three guests will hold the giant American flag on the field during the national anthem. Package includes four lower-level preseason tickets.",
-    imageUrl: "/items/07-flag-experience.png",
+    imageUrl: "/items/08-flag-experience.png",
     startingBid: 400,
     estimatedValue: null,
   },
@@ -104,7 +104,7 @@ const items = [
     name: "Morgan Wallen Concert — 4 Tickets, Aug 1 2026",
     description:
       "See country music star Morgan Wallen at Lincoln Financial Field up close from the 8th row on the field. Winner receives 4 tickets in F4 row 8 plus 4 club access passes for the club lounge before, during, or after the show.",
-    imageUrl: "/items/08-morgan-wallen.png",
+    imageUrl: "/items/07-morgan-wallen.png",
     startingBid: 800,
     estimatedValue: 3000,
   },
@@ -113,7 +113,7 @@ const items = [
     name: "Bruno Mars Concert — 4 Tickets, Sept 2 2026",
     description:
       "See pop music star Bruno Mars at Lincoln Financial Field up close from the 10th row on the field. Winner receives 4 tickets in F4 row 10 plus 4 club access passes for the club lounge before, during, or after the show.",
-    imageUrl: "/items/09-bruno-mars.png",
+    imageUrl: "/items/10-bruno-mars.png",
     startingBid: 400,
     estimatedValue: 1600,
   },
@@ -122,7 +122,7 @@ const items = [
     name: "Shane Gillis Comedy Show — 4 Tickets, Jul 17 2026",
     description:
       "See comedy superstar Shane Gillis set the record for the largest American comedy show as he plays a sold-out Lincoln Financial Field with many special guests and surprises. Winner receives 4 tickets in the 5th row to watch Shane and his friends up close.",
-    imageUrl: "/items/10-shane-gillis.png",
+    imageUrl: "/items/09-shane-gillis.png",
     startingBid: 200,
     estimatedValue: 800,
   },
