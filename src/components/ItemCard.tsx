@@ -26,7 +26,7 @@ export default function ItemCard({ item, currentUser }: Props) {
           alt={item.name}
           fill
           sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-contain p-3 transition group-hover:scale-105"
+          className="object-cover transition group-hover:scale-105"
         />
         {won ? (
           <span className="absolute left-3 top-3 rounded-full bg-eagles-green px-3 py-1 text-xs font-medium text-white shadow">
