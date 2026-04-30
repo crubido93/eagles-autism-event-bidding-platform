@@ -140,10 +140,8 @@ export default function AuctionPortal({ user }: { user: CurrentUser }) {
                 window.location.href = "/";
               }}
               className="rounded-md border border-black/10 px-2.5 py-1.5 text-sm hover:bg-black/5 sm:px-3 sm:py-2 dark:border-white/10 dark:hover:bg-white/10"
-              aria-label="Sign out"
             >
-              <span className="sm:hidden">Out</span>
-              <span className="hidden sm:inline">Sign out</span>
+              Sign out
             </button>
           </div>
         </div>
