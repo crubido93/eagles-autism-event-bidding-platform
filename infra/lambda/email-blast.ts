@@ -81,6 +81,8 @@ function buildHtml(originalHtml: string, recipient: string): string {
   return originalHtml + footer;
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 async function sendOne(
   apiKey: string,
   to: string,
@@ -88,34 +90,45 @@ async function sendOne(
   html: string,
 ): Promise<boolean> {
   const unsubUrl = `${APP_URL}/unsubscribe?email=${encodeURIComponent(to)}`;
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: `${FROM_NAME} <${FROM_EMAIL}>`,
-        to,
-        subject,
-        html: buildHtml(html, to),
-        reply_to: REPLY_TO,
+  const body = JSON.stringify({
+    from: `${FROM_NAME} <${FROM_EMAIL}>`,
+    to,
+    subject,
+    html: buildHtml(html, to),
+    reply_to: REPLY_TO,
+    headers: {
+      "List-Unsubscribe": `<mailto:unsubscribe@info.mccloskeyseaf.com?subject=unsubscribe>, <${unsubUrl}>`,
+      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    },
+  });
+  // Up to 3 attempts with exponential backoff on 429s
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
         headers: {
-          "List-Unsubscribe": `<mailto:unsubscribe@info.mccloskeyseaf.com?subject=unsubscribe>, <${unsubUrl}>`,
-          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
         },
-      }),
-    });
-    if (!res.ok) {
+        body,
+      });
+      if (res.ok) return true;
+      if (res.status === 429 && attempt < 3) {
+        await sleep(1000 * attempt); // 1s, then 2s
+        continue;
+      }
       console.warn(`Resend ${res.status} for ${to}: ${await res.text()}`);
       return false;
+    } catch (err) {
+      console.error(`fetch threw for ${to}:`, err);
+      if (attempt < 3) {
+        await sleep(500);
+        continue;
+      }
+      return false;
     }
-    return true;
-  } catch (err) {
-    console.error(`fetch threw for ${to}:`, err);
-    return false;
   }
+  return false;
 }
 
 type AppSyncEvent = {
@@ -139,14 +152,17 @@ export const handler = async (event: AppSyncEvent) => {
 
   const apiKey = await getResendKey();
 
-  // Send sequentially to keep things simple. For larger lists, swap to
-  // chunked Promise.all with a concurrency limit.
+  // Resend free tier caps at 5 req/sec — we throttle to 4/sec (250ms gap)
+  // to leave headroom and avoid 429s. Plus per-call backoff retry inside
+  // sendOne handles the occasional transient 429.
   let sent = 0;
   let failed = 0;
-  for (const to of targets) {
+  for (let i = 0; i < targets.length; i++) {
+    const to = targets[i];
     const ok = await sendOne(apiKey, to, subject, htmlBody);
     if (ok) sent++;
     else failed++;
+    if (i < targets.length - 1) await sleep(250);
   }
 
   return { sent, failed, total: targets.length };
