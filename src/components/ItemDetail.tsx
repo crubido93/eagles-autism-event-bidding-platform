@@ -12,6 +12,7 @@ import Countdown from "./Countdown";
 import Logo from "./Logo";
 
 const MIN_INCREMENT = 5;
+const VENMO_URL = "https://www.venmo.com/u/EAFMcCloskeys";
 
 export default function ItemDetail({
   itemId,
@@ -184,7 +185,6 @@ export default function ItemDetail({
   const ended = new Date(item.endsAt).getTime() <= Date.now();
   const isLeader = item.currentBidderId === user.userId;
   const won = ended && isLeader;
-  const lost = ended && !isLeader && item.currentBidderId !== null;
 
   return (
     <main className="min-h-screen">
@@ -256,30 +256,66 @@ export default function ItemDetail({
           </div>
 
           {won ? (
-            <div className="mt-6 rounded-xl border border-eagles-green/40 bg-eagles-green/10 p-5">
-              <p className="font-display text-2xl tracking-wide text-eagles-green">
-                🏆 You won!
+            <div className="mt-6 rounded-2xl border border-eagles-green/40 bg-gradient-to-br from-eagles-green/15 to-eagles-green/5 p-6 sm:p-7">
+              <p className="text-3xl">🏆</p>
+              <h2 className="mt-2 font-display text-2xl tracking-wide text-eagles-green sm:text-3xl">
+                Congratulations — you won!
+              </h2>
+              <p className="mt-3 text-sm sm:text-base">
+                You're the winning bidder for <strong>{item.name}</strong> at{" "}
+                <strong>${item.currentBid.toLocaleString()}</strong>.
               </p>
-              <p className="mt-1 text-sm">
-                Final bid ${item.currentBid.toLocaleString()}. We'll be in
-                touch with payment + pickup details.
+              <p className="mt-3 text-sm sm:text-base">
+                <strong>100% of proceeds</strong> go directly to the Eagles
+                Autism Foundation to fund autism research and care. Thank you
+                for your generosity.
               </p>
-            </div>
-          ) : lost ? (
-            <div className="mt-6 rounded-xl border border-black/10 bg-black/5 p-5 dark:border-white/10 dark:bg-white/5">
-              <p className="font-display text-xl tracking-wide">
-                Bidding closed
-              </p>
-              <p className="mt-1 text-sm text-black/60 dark:text-white/60">
-                Won by {item.currentBidderName} at $
-                {item.currentBid.toLocaleString()}.
+              <a
+                href={VENMO_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#008CFF] px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-[#0070cc]"
+              >
+                <span aria-hidden>🅥</span> Pay $
+                {item.currentBid.toLocaleString()} via Venmo
+              </a>
+              <p className="mt-3 text-xs text-black/60 dark:text-white/60">
+                In the Venmo note please include your name and the item:{" "}
+                <em>{item.name}</em>. We'll coordinate pickup with you after
+                payment.
               </p>
             </div>
           ) : ended ? (
-            <div className="mt-6 rounded-xl border border-black/10 bg-black/5 p-5 dark:border-white/10 dark:bg-white/5">
-              <p className="font-display text-xl tracking-wide">
-                Bidding closed — no bids placed
+            <div className="mt-6 rounded-2xl border border-black/10 bg-white p-6 sm:p-7 dark:border-white/10 dark:bg-white/[0.03]">
+              <h2 className="font-display text-2xl tracking-wide sm:text-3xl">
+                Thank you for supporting the cause
+              </h2>
+              {item.currentBidderId !== null ? (
+                <p className="mt-2 text-sm text-black/60 dark:text-white/60">
+                  Bidding has closed. {item.name} was won by{" "}
+                  <strong>{item.currentBidderName}</strong> at $
+                  {item.currentBid.toLocaleString()}.
+                </p>
+              ) : (
+                <p className="mt-2 text-sm text-black/60 dark:text-white/60">
+                  Bidding has closed. No bids were placed on this item.
+                </p>
+              )}
+              <p className="mt-4 text-sm sm:text-base">
+                Every dollar raised tonight goes to the{" "}
+                <strong>Eagles Autism Foundation</strong> — funding research,
+                advocacy, and care for families across the country. If you'd
+                like to keep contributing to the cause, you can donate any
+                amount directly to the event.
               </p>
+              <a
+                href={VENMO_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#008CFF] px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-[#0070cc]"
+              >
+                <span aria-hidden>🅥</span> Donate via Venmo
+              </a>
             </div>
           ) : (
             <form
