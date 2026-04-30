@@ -36,6 +36,18 @@ jobs:
         working-directory: infra
         run: npx cdk deploy --require-approval never --outputs-file ../cdk-outputs.json
 
+      - name: Sync Resend API key to Secrets Manager
+        if: ${{ env.RESEND_API_KEY != '' }}
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          aws secretsmanager update-secret \
+            --secret-id eagles-auction/resend-api-key \
+            --secret-string "$RESEND_API_KEY" \
+            --region "${{ secrets.AWS_REGION }}" \
+            --output text \
+            --query 'Name'
+
       # Amplify Hosting auto-builds on every push to main via its GitHub webhook
       # (configured when the app was connected in the console). No manual trigger
       # needed here — adding one causes LimitExceededException because the
