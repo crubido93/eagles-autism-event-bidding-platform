@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "./Logo";
 
 export default function AuthShell({
   title,
@@ -17,9 +16,16 @@ export default function AuthShell({
     <main className="min-h-screen bg-gradient-to-br from-white via-eagles-green/5 to-white dark:from-eagles-midnight dark:via-eagles-green/10 dark:to-eagles-midnight">
       <div className="mx-auto flex min-h-screen max-w-md flex-col px-4 py-6 sm:px-6 sm:py-10">
         <Link href="/" className="self-center">
-          <Logo />
+          <Image
+            src="/logos/logo-foundation.png"
+            alt="Eagles Autism Foundation"
+            width={600}
+            height={180}
+            priority
+            className="h-24 w-auto sm:h-32"
+          />
         </Link>
-        <div className="mt-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:mt-12 sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
+        <div className="mt-4 rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:mt-6 sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
           <h1 className="font-display text-3xl tracking-wide">{title}</h1>
           {subtitle ? (
             <p className="mt-2 text-sm text-black/60 dark:text-white/60">
