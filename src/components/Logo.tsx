@@ -1,15 +1,14 @@
+import Image from "next/image";
+
 export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <div
-      className={`flex items-center gap-2 font-display tracking-wider ${className}`}
-    >
-      <span
-        aria-hidden
-        className="grid h-9 w-9 place-items-center rounded-full bg-eagles-green text-white text-lg"
-      >
-        E
-      </span>
-      <span className="text-xl">EAGLES AUTISM FOUNDATION</span>
-    </div>
+    <Image
+      src="/logos/logo.webp"
+      alt="Eagles Autism Foundation"
+      width={600}
+      height={180}
+      priority
+      className={`h-10 w-auto sm:h-12 ${className}`}
+    />
   );
 }
