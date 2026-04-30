@@ -9,6 +9,7 @@ export type CurrentUser = {
   userId: string;
   email: string;
   name: string;
+  groups: string[];
 };
 
 export default function AuthGate({
@@ -28,11 +29,17 @@ export default function AuthGate({
         const u = await getCurrentUser();
         const session = await fetchAuthSession();
         const claims = session.tokens?.idToken?.payload ?? {};
+        const accessClaims = session.tokens?.accessToken?.payload ?? {};
+        const groups =
+          (accessClaims["cognito:groups"] as string[] | undefined) ??
+          (claims["cognito:groups"] as string[] | undefined) ??
+          [];
         if (cancelled) return;
         setUser({
           userId: u.userId,
           email: (claims.email as string) ?? u.username,
           name: (claims.name as string) ?? u.username,
+          groups,
         });
       } catch {
         router.replace("/login");

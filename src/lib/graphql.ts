@@ -47,6 +47,23 @@ export const mutations = {
       }
     }
   `,
+  sendEmailBlast: /* GraphQL */ `
+    mutation SendEmailBlast(
+      $subject: String!
+      $htmlBody: String!
+      $recipients: [String!]
+    ) {
+      sendEmailBlast(
+        subject: $subject
+        htmlBody: $htmlBody
+        recipients: $recipients
+      ) {
+        sent
+        failed
+        total
+      }
+    }
+  `,
 };
 
 export const subscriptions = {
