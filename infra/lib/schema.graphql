@@ -25,9 +25,21 @@ type Query {
   getItem(itemId: ID!): Item @aws_cognito_user_pools
 }
 
+type EmailBlastResult @aws_cognito_user_pools(cognito_groups: ["admins"]) {
+  sent: Int!
+  failed: Int!
+  total: Int!
+}
+
 type Mutation {
   placeBid(itemId: ID!, amount: Float!, bidderName: String): BidEvent!
     @aws_cognito_user_pools
+
+  sendEmailBlast(
+    subject: String!
+    htmlBody: String!
+    recipients: [String!]
+  ): EmailBlastResult! @aws_cognito_user_pools(cognito_groups: ["admins"])
 }
 
 type Subscription {
