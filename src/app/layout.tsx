@@ -22,7 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${display.variable}`}>
+    <html
+      lang="en"
+      className={`dark ${inter.variable} ${display.variable}`}
+    >
       <body className="font-sans">
         <AmplifyProvider>{children}</AmplifyProvider>
       </body>
