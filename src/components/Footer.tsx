@@ -1,9 +1,9 @@
 export default function Footer() {
   return (
     <footer className="border-t border-black/5 bg-eagles-midnight text-white/80">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-12 sm:flex-row sm:items-center">
+      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-4 py-10 sm:flex-row sm:items-center sm:px-6 sm:py-12">
         <div>
-          <p className="font-display text-2xl tracking-wider text-white">
+          <p className="font-display text-xl tracking-wider text-white sm:text-2xl">
             EAGLES AUTISM FOUNDATION
           </p>
           <p className="mt-1 text-sm">
@@ -11,7 +11,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="text-sm">
-          <p>
+          <p className="break-words">
             Questions?{" "}
             <a
               href="mailto:info@eaglesautismfoundation.org"

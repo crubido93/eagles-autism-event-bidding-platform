@@ -124,10 +124,10 @@ export default function AuctionPortal({ user }: { user: CurrentUser }) {
   return (
     <main className="min-h-screen">
       <header className="sticky top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-eagles-midnight/80">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-4">
           <Logo />
-          <div className="flex items-center gap-3">
-            <span className="hidden text-sm text-black/60 dark:text-white/60 sm:block">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <span className="hidden max-w-[200px] truncate text-sm text-black/60 lg:block dark:text-white/60">
               {user.name}
             </span>
             <NotificationBell
@@ -139,27 +139,29 @@ export default function AuctionPortal({ user }: { user: CurrentUser }) {
                 await signOut();
                 window.location.href = "/";
               }}
-              className="rounded-md border border-black/10 px-3 py-2 text-sm hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10"
+              className="rounded-md border border-black/10 px-2.5 py-1.5 text-sm hover:bg-black/5 sm:px-3 sm:py-2 dark:border-white/10 dark:hover:bg-white/10"
+              aria-label="Sign out"
             >
-              Sign out
+              <span className="sm:hidden">Out</span>
+              <span className="hidden sm:inline">Sign out</span>
             </button>
           </div>
         </div>
       </header>
 
-      <section className="mx-auto max-w-6xl px-6 py-10">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+        <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
           <div>
-            <h1 className="font-display text-4xl tracking-wide sm:text-5xl">
+            <h1 className="font-display text-3xl tracking-wide sm:text-4xl lg:text-5xl">
               Auction
             </h1>
-            <p className="mt-2 max-w-xl text-black/60 dark:text-white/60">
+            <p className="mt-2 max-w-xl text-sm text-black/60 sm:text-base dark:text-white/60">
               Exclusive items and experiences, available for the benefit of the
               Eagles Autism Foundation. Bid as often as you'd like — we'll
               notify you instantly if you're outbid.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-3 gap-2 text-center sm:gap-4">
             <Stat label="Items" value={stats.total} />
             <Stat label="Leading" value={stats.leading} />
             <Stat label="Won" value={stats.won} />
@@ -195,8 +197,8 @@ export default function AuctionPortal({ user }: { user: CurrentUser }) {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-black/10 bg-white px-4 py-2 dark:border-white/10 dark:bg-white/[0.03]">
-      <p className="font-display text-2xl tracking-wide text-eagles-green">
+    <div className="rounded-xl border border-black/10 bg-white px-2.5 py-2 sm:px-4 dark:border-white/10 dark:bg-white/[0.03]">
+      <p className="font-display text-xl tracking-wide text-eagles-green sm:text-2xl">
         {value}
       </p>
       <p className="text-xs uppercase tracking-widest text-black/50 dark:text-white/50">

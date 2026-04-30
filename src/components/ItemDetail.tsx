@@ -189,18 +189,19 @@ export default function ItemDetail({
   return (
     <main className="min-h-screen">
       <header className="border-b border-black/5 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-eagles-midnight/80">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
           <Logo />
           <Link
             href="/auction"
-            className="text-sm text-black/60 hover:text-eagles-green dark:text-white/60"
+            className="shrink-0 text-sm text-black/60 hover:text-eagles-green dark:text-white/60"
           >
-            ← Back to auction
+            <span className="sm:hidden">← Back</span>
+            <span className="hidden sm:inline">← Back to auction</span>
           </Link>
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[1.1fr_1fr]">
+      <section className="mx-auto grid max-w-6xl gap-6 px-4 py-6 sm:gap-10 sm:px-6 sm:py-10 lg:grid-cols-[1.1fr_1fr]">
         <div className="self-start overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
           <div className="relative aspect-[4/3] w-full">
             <Image
@@ -228,14 +229,14 @@ export default function ItemDetail({
               </span>
             ) : null}
           </div>
-          <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">
+          <h1 className="mt-4 font-display text-3xl tracking-wide sm:text-4xl lg:text-5xl">
             {item.name}
           </h1>
-          <p className="mt-4 text-black/70 dark:text-white/70">
+          <p className="mt-3 text-sm text-black/70 sm:mt-4 sm:text-base dark:text-white/70">
             {item.description}
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-white/[0.03]">
+          <div className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-black/10 bg-white p-4 sm:mt-8 sm:gap-4 sm:p-5 dark:border-white/10 dark:bg-white/[0.03]">
             <Stat
               label="Starting bid"
               value={`$${item.startingBid.toLocaleString()}`}
@@ -324,7 +325,7 @@ export default function ItemDetail({
                 </p>
               ) : null}
 
-              <div className="mt-4 flex gap-3">
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40">
                     $

@@ -17,12 +17,12 @@ const sponsors = [
 
 export default function SponsorBanner() {
   return (
-    <section className="border-y border-black/5 bg-black/[0.02] py-12 dark:border-white/10 dark:bg-white/[0.02]">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="border-y border-black/5 bg-black/[0.02] py-10 sm:py-12 dark:border-white/10 dark:bg-white/[0.02]">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="text-center text-xs font-medium uppercase tracking-[0.2em] text-black/50 dark:text-white/50">
           Hosted in partnership with
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-12 sm:gap-20">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-8 sm:mt-8 sm:gap-20">
           {sponsors.map((s) => (
             <div
               key={s.name}
@@ -34,7 +34,7 @@ export default function SponsorBanner() {
                 alt={s.name}
                 width={s.width}
                 height={s.height}
-                className="h-20 w-auto object-contain sm:h-24"
+                className="h-14 w-auto object-contain sm:h-24"
               />
             </div>
           ))}

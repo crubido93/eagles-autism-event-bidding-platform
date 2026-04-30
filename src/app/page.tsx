@@ -16,29 +16,27 @@ export default function Home() {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0,76,84,0.18),transparent_60%)]"
         />
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1.2fr_1fr] lg:py-28">
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-[1.2fr_1fr] lg:py-28">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-eagles-green/30 bg-eagles-green/5 px-3 py-1 text-xs font-medium uppercase tracking-widest text-eagles-green">
               <span className="h-1.5 w-1.5 rounded-full bg-eagles-green" />
               Saturday · May 2 · 7 PM
             </p>
-            <h1 className="mt-6 font-display text-5xl leading-[1.05] tracking-wide sm:text-6xl lg:text-7xl">
-              A night for the
-              <br />
-              <span className="text-eagles-green">Eagles Autism</span>
-              <br />
+            <h1 className="mt-5 font-display text-4xl leading-[1.05] tracking-wide sm:mt-6 sm:text-6xl lg:text-7xl">
+              A night for the{" "}
+              <span className="text-eagles-green">Eagles Autism</span>{" "}
               Foundation.
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-black/70 dark:text-white/70">
+            <p className="mt-5 max-w-xl text-base text-black/70 sm:mt-6 sm:text-lg dark:text-white/70">
               Join us at McCloskey's in Ardmore for an evening with familiar
               friends and faces — Super Bowl raffles, exclusive auctions, and
               special guests stopping by. 100% of proceeds go to autism
               research and care.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
               <Link
                 href="/signup"
-                className="rounded-md bg-eagles-green px-6 py-3 font-medium text-white shadow-sm transition hover:bg-eagles-green/90"
+                className="rounded-md bg-eagles-green px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-eagles-green/90 sm:px-6 sm:py-3 sm:text-base"
               >
                 Sign up & start bidding
               </Link>
@@ -46,7 +44,7 @@ export default function Home() {
                 href={DONATE_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-md border border-black/15 bg-white px-6 py-3 font-medium text-black transition hover:border-eagles-green hover:text-eagles-green dark:border-white/15 dark:bg-transparent dark:text-white"
+                className="rounded-md border border-black/15 bg-white px-5 py-2.5 text-sm font-medium text-black transition hover:border-eagles-green hover:text-eagles-green sm:px-6 sm:py-3 sm:text-base dark:border-white/15 dark:bg-transparent dark:text-white"
               >
                 Donate directly →
               </a>
@@ -57,7 +55,7 @@ export default function Home() {
             </p>
           </div>
 
-          <aside className="rounded-2xl border border-black/10 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-white/[0.03]">
+          <aside className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
             <h2 className="font-display text-xl tracking-wider">
               EVENT DETAILS
             </h2>
@@ -93,7 +91,7 @@ export default function Home() {
 
       <section
         id="cause"
-        className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-2"
+        className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-2"
       >
         <div>
           <h2 className="font-display text-3xl tracking-wide sm:text-4xl">
@@ -127,12 +125,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="rounded-2xl border border-eagles-green/20 bg-gradient-to-br from-eagles-green to-eagles-midnight p-10 text-white sm:p-14">
-          <h3 className="font-display text-3xl tracking-wide sm:text-4xl">
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-24">
+        <div className="rounded-2xl border border-eagles-green/20 bg-gradient-to-br from-eagles-green to-eagles-midnight p-7 text-white sm:p-10 lg:p-14">
+          <h3 className="font-display text-2xl tracking-wide sm:text-3xl lg:text-4xl">
             Ready to bid?
           </h3>
-          <p className="mt-3 max-w-2xl text-white/80">
+          <p className="mt-3 max-w-2xl text-sm text-white/80 sm:text-base">
             12+ exclusive items go live the night of the event. Create an
             account now so you're ready when bidding opens — and so we can
             notify you the second you're outbid.
@@ -140,13 +138,13 @@ export default function Home() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/signup"
-              className="rounded-md bg-white px-6 py-3 font-medium text-eagles-green transition hover:bg-white/90"
+              className="rounded-md bg-white px-5 py-2.5 text-sm font-medium text-eagles-green transition hover:bg-white/90 sm:px-6 sm:py-3 sm:text-base"
             >
               Create account
             </Link>
             <Link
               href="/auction"
-              className="rounded-md border border-white/30 px-6 py-3 font-medium text-white transition hover:bg-white/10"
+              className="rounded-md border border-white/30 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 sm:px-6 sm:py-3 sm:text-base"
             >
               Preview the auction
             </Link>

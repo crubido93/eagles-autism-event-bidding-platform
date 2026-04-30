@@ -55,7 +55,7 @@ export default function NotificationBell({
         ) : null}
       </button>
       {open ? (
-        <div className="absolute right-0 mt-2 w-80 rounded-xl border border-black/10 bg-white p-2 shadow-lg dark:border-white/10 dark:bg-eagles-midnight">
+        <div className="absolute right-0 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-black/10 bg-white p-2 shadow-lg dark:border-white/10 dark:bg-eagles-midnight">
           {notifications.length === 0 ? (
             <p className="p-4 text-center text-sm text-black/60 dark:text-white/60">
               No notifications yet.
