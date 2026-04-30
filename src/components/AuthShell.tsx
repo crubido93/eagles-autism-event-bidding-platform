@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Logo from "./Logo";
 
@@ -15,7 +16,7 @@ export default function AuthShell({
   return (
     <main className="min-h-screen bg-gradient-to-br from-white via-eagles-green/5 to-white dark:from-eagles-midnight dark:via-eagles-green/10 dark:to-eagles-midnight">
       <div className="mx-auto flex min-h-screen max-w-md flex-col px-4 py-6 sm:px-6 sm:py-10">
-        <Link href="/" className="self-start">
+        <Link href="/" className="self-center">
           <Logo />
         </Link>
         <div className="mt-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:mt-12 sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
@@ -32,6 +33,28 @@ export default function AuthShell({
             {footer}
           </div>
         ) : null}
+
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-black/50 dark:text-white/50">
+            Sponsored by
+          </p>
+          <div className="flex items-center justify-center gap-8">
+            <Image
+              src="/logos/eagles.png"
+              alt="Philadelphia Eagles"
+              width={200}
+              height={140}
+              className="h-12 w-auto object-contain sm:h-14"
+            />
+            <Image
+              src="/logos/mcc-logo.webp"
+              alt="McCloskey's"
+              width={160}
+              height={160}
+              className="h-12 w-auto object-contain sm:h-14"
+            />
+          </div>
+        </div>
       </div>
     </main>
   );
