@@ -32,9 +32,8 @@ const client = DynamoDBDocumentClient.from(
   }),
 );
 
-// TEST close: Apr 30 2026 2:35 PM EDT (18:35 UTC) — auctions close ~immediately for UI testing.
-// PROD close (Sat May 2 2026 10:30 PM EDT): "2026-05-03T02:30:00.000Z"
-const ENDS_AT = "2026-04-30T18:35:00.000Z";
+// Bidding closes Saturday May 2 2026 at 10:30 PM EDT = 02:30 UTC Sun May 3.
+const ENDS_AT = "2026-05-03T02:30:00.000Z";
 
 const items = [
   {
