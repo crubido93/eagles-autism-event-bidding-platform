@@ -36,13 +36,7 @@ jobs:
         working-directory: infra
         run: npx cdk deploy --require-approval never --outputs-file ../cdk-outputs.json
 
-      - name: Trigger Amplify build
-        if: ${{ env.AMPLIFY_APP_ID != '' && env.AMPLIFY_BRANCH != '' }}
-        env:
-          AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
-          AMPLIFY_BRANCH: ${{ secrets.AMPLIFY_BRANCH }}
-        run: |
-          aws amplify start-job \
-            --app-id "$AMPLIFY_APP_ID" \
-            --branch-name "$AMPLIFY_BRANCH" \
-            --job-type RELEASE
+      # Amplify Hosting auto-builds on every push to main via its GitHub webhook
+      # (configured when the app was connected in the console). No manual trigger
+      # needed here — adding one causes LimitExceededException because the
+      # webhook-triggered build is already running for the same commit.
