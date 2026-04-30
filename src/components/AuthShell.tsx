@@ -22,7 +22,7 @@ export default function AuthShell({
             width={600}
             height={180}
             priority
-            className="h-24 w-auto sm:h-32"
+            className="h-40 w-auto sm:h-48"
           />
         </Link>
         <div className="mt-4 rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:mt-6 sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
