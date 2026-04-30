@@ -202,17 +202,62 @@ export default function ItemDetail({
       </header>
 
       <section className="mx-auto grid max-w-6xl gap-6 px-4 py-6 sm:gap-10 sm:px-6 sm:py-10 lg:grid-cols-[1.1fr_1fr]">
-        <div className="self-start overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
-          <div className="relative aspect-[4/3] w-full">
-            <Image
-              src={item.imageUrl}
-              alt={item.name}
-              fill
-              sizes="(min-width: 1024px) 55vw, 100vw"
-              className="object-cover"
-              priority
-            />
+        <div className="self-start space-y-4">
+          <div className="overflow-hidden rounded-2xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/[0.03]">
+            <div className="relative aspect-[4/3] w-full">
+              <Image
+                src={item.imageUrl}
+                alt={item.name}
+                fill
+                sizes="(min-width: 1024px) 55vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
           </div>
+
+          {won ? (
+            <div className="rounded-2xl border border-eagles-green/30 bg-white p-5 dark:border-eagles-green/30 dark:bg-white/[0.03]">
+              <p className="text-xs font-medium uppercase tracking-widest text-eagles-green">
+                Pickup & delivery contact
+              </p>
+              <p className="mt-3 font-display text-lg tracking-wide">
+                Jimmer McCafferty
+              </p>
+              <p className="mt-2 text-sm text-black/70 dark:text-white/70">
+                Once payment is received via Venmo, reach out to Jimmer to
+                coordinate pickup or delivery of your item.
+              </p>
+              <dl className="mt-4 space-y-2 text-sm">
+                <div className="flex flex-wrap items-baseline gap-x-3">
+                  <dt className="text-xs font-medium uppercase tracking-widest text-black/50 dark:text-white/50">
+                    Phone
+                  </dt>
+                  <dd>
+                    <a
+                      href="tel:+12154957815"
+                      className="font-medium text-black/80 hover:text-eagles-green dark:text-white/80"
+                    >
+                      215.495.7815
+                    </a>
+                  </dd>
+                </div>
+                <div className="flex flex-wrap items-baseline gap-x-3">
+                  <dt className="text-xs font-medium uppercase tracking-widest text-black/50 dark:text-white/50">
+                    Email
+                  </dt>
+                  <dd>
+                    <a
+                      href="mailto:jmccafferty@eagles.nfl.com"
+                      className="break-all font-medium text-black/80 hover:text-eagles-green dark:text-white/80"
+                    >
+                      jmccafferty@eagles.nfl.com
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          ) : null}
         </div>
 
         <div>
