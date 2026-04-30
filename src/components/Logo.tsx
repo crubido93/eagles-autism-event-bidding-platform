@@ -8,7 +8,7 @@ export default function Logo({ className = "" }: { className?: string }) {
       width={600}
       height={180}
       priority
-      className={`h-10 w-auto sm:h-12 ${className}`}
+      className={`h-16 w-auto sm:h-20 ${className}`}
     />
   );
 }
