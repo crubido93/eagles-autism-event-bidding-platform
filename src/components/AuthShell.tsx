@@ -25,7 +25,7 @@ export default function AuthShell({
             className="h-40 w-auto sm:h-48"
           />
         </Link>
-        <div className="mt-4 rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:mt-6 sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
+        <div className="-mt-4 rounded-2xl border border-black/10 bg-white p-6 shadow-sm sm:-mt-6 sm:p-8 dark:border-white/10 dark:bg-white/[0.03]">
           <h1 className="font-display text-3xl tracking-wide">{title}</h1>
           {subtitle ? (
             <p className="mt-2 text-sm text-black/60 dark:text-white/60">
