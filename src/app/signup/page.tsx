@@ -1,9 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signUp } from "aws-amplify/auth";
+import { getCurrentUser, signUp } from "aws-amplify/auth";
 import { configureAmplify } from "@/lib/amplify";
 import AuthShell from "@/components/AuthShell";
 
@@ -14,6 +14,24 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  // If already signed in, redirect to /auction (same pattern as /login).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        configureAmplify();
+        await getCurrentUser();
+        if (!cancelled) router.replace("/auction");
+      } catch {
+        if (!cancelled) setCheckingSession(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -34,6 +52,14 @@ export default function SignupPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (checkingSession) {
+    return (
+      <main className="grid min-h-screen place-items-center text-sm text-black/60 dark:text-white/60">
+        Loading…
+      </main>
+    );
   }
 
   return (

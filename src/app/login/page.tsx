@@ -1,9 +1,9 @@
 "use client";
 
-import { FormEvent, Suspense, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "aws-amplify/auth";
+import { getCurrentUser, signIn, signOut } from "aws-amplify/auth";
 import { configureAmplify } from "@/lib/amplify";
 import AuthShell from "@/components/AuthShell";
 
@@ -14,6 +14,24 @@ function LoginInner() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  // If already signed in, send them straight to /auction.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        configureAmplify();
+        await getCurrentUser();
+        if (!cancelled) router.replace("/auction");
+      } catch {
+        if (!cancelled) setCheckingSession(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -21,13 +39,34 @@ function LoginInner() {
     setLoading(true);
     try {
       configureAmplify();
-      await signIn({ username: email, password });
+      try {
+        await signIn({ username: email, password });
+      } catch (err) {
+        // If Amplify says someone's already signed in, sign them out and retry.
+        if (
+          err instanceof Error &&
+          /already a signed in user/i.test(err.message)
+        ) {
+          await signOut();
+          await signIn({ username: email, password });
+        } else {
+          throw err;
+        }
+      }
       router.push("/auction");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
     }
+  }
+
+  if (checkingSession) {
+    return (
+      <main className="grid min-h-screen place-items-center text-sm text-black/60 dark:text-white/60">
+        Loading…
+      </main>
+    );
   }
 
   return (
