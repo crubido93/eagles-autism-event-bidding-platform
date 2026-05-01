@@ -24,7 +24,7 @@ if aws iam get-open-id-connect-provider --profile "$PROFILE" \
     --open-id-connect-provider-arn "$PROVIDER_ARN" >/dev/null 2>&1; then
   echo "✓ OIDC provider already exists"
 else
-  echo "Creating OIDC provider…"
+  echo "Creating OIDC provider..."
   aws iam create-open-id-connect-provider \
     --profile "$PROFILE" \
     --url https://token.actions.githubusercontent.com \
@@ -58,12 +58,12 @@ JSON
 
 # 3. Role (idempotent — update trust policy if it exists)
 if aws iam get-role --profile "$PROFILE" --role-name "$ROLE_NAME" >/dev/null 2>&1; then
-  echo "✓ Role $ROLE_NAME exists, updating trust policy…"
+  echo "Role ${ROLE_NAME} exists, updating trust policy..."
   aws iam update-assume-role-policy --profile "$PROFILE" \
     --role-name "$ROLE_NAME" \
     --policy-document "$TRUST_POLICY"
 else
-  echo "Creating role $ROLE_NAME…"
+  echo "Creating role ${ROLE_NAME}..."
   aws iam create-role --profile "$PROFILE" \
     --role-name "$ROLE_NAME" \
     --assume-role-policy-document "$TRUST_POLICY" \
